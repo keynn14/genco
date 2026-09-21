@@ -1,0 +1,165 @@
+@{
+    ViewData["Title"] = "GENCO PIZZA | Profile & Links";
+}
+
+<div class="genco-profile-card text-center">
+
+    <!-- Profile Avatar & Header -->
+    <div class="avatar-container">
+        <img src="~/images/genco-profile.jpg" alt="GENCO PIZZA Logo" class="profile-avatar" />
+        <div class="avatar-badge">
+            <i class="fa-solid fa-pizza-slice"></i>
+        </div>
+    </div>
+
+    <h1 class="genco-title">GENCO PIZZA</h1>
+    <p class="genco-subtitle">Italian-inspired, Homemade with Love.</p>
+
+    <!-- Quick Call & Contact Card -->
+    <div class="phone-card">
+        <div class="phone-card-title">
+            <i class="fa-solid fa-headset me-1"></i> Order & Inquiries
+        </div>
+        <div class="phone-card-body">
+            <div class="phone-number-display">0995 833 8512</div>
+            <div class="phone-actions">
+                <a href="tel:09958338512" class="phone-action-btn" title="Call Now">
+                    <i class="fa-solid fa-phone"></i> Call
+                </a>
+                <button type="button" class="phone-action-btn" onclick="copyToClipboard('09958338512')" title="Copy Number">
+                    <i class="fa-solid fa-copy"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Social Media Links -->
+    <div class="social-links-container">
+        <!-- Facebook -->
+        <a href="https://www.facebook.com/gencopizza/" target="_blank" rel="noopener noreferrer" class="social-btn social-btn-fb">
+            <div class="social-btn-content">
+                <i class="fa-brands fa-facebook-f social-icon"></i>
+                <span>Facebook</span>
+            </div>
+            <i class="fa-solid fa-arrow-right social-arrow"></i>
+        </a>
+
+        <!-- Instagram -->
+        <a href="https://www.instagram.com/gencopizzadavaocity/" target="_blank" rel="noopener noreferrer" class="social-btn social-btn-ig">
+            <div class="social-btn-content">
+                <i class="fa-brands fa-instagram social-icon"></i>
+                <span>Instagram</span>
+            </div>
+            <i class="fa-solid fa-arrow-right social-arrow"></i>
+        </a>
+
+        <!-- TikTok -->
+        <a href="https://www.tiktok.com/@@genco.pizza.davao" target="_blank" rel="noopener noreferrer" class="social-btn social-btn-tiktok">
+            <div class="social-btn-content">
+                <i class="fa-brands fa-tiktok social-icon"></i>
+                <span>TikTok</span>
+            </div>
+            <i class="fa-solid fa-arrow-right social-arrow"></i>
+        </a>
+    </div>
+
+    <div class="genco-divider"></div>
+
+    <!-- Featured Pizza Menu Dropdown / Accordion -->
+    <div class="section-title">
+        <i class="fa-solid fa-fire text-warning"></i> Featured Pizza Menu <i class="fa-solid fa-fire text-warning"></i>
+    </div>
+
+    <div class="accordion genco-accordion" id="pizzaMenuAccordion">
+        
+        <!-- 1st Pizza: La Suprema Sisig -->
+        <div class="accordion-item genco-accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button genco-accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    <i class="fa-solid fa-pepper-hot text-danger me-2"></i>
+                    <span>1. La Suprema Sisig</span>
+                    <span class="pizza-badge">Special</span>
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#pizzaMenuAccordion">
+                <div class="accordion-body text-start">
+                    <div class="pizza-img-wrapper">
+                        <img src="~/images/la-suprema-sisig.jpg" alt="La Suprema Sisig Pizza" class="pizza-img" />
+                    </div>
+                    <p class="pizza-description">
+                        Chicken or pork sisig from HotMess, butter, mozzarella, cheddar, onions, chili, quail eggs, and mayonnaise.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2nd Pizza: Classic Pepperoni -->
+        <div class="accordion-item genco-accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button genco-accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    <i class="fa-solid fa-pizza-slice text-warning me-2"></i>
+                    <span>2. Classic Pepperoni</span>
+                    <span class="pizza-badge">Classic</span>
+                </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#pizzaMenuAccordion">
+                <div class="accordion-body text-start">
+                    <div class="pizza-img-wrapper">
+                        <img src="~/images/classic-pepperoni.jpg" alt="Classic Pepperoni Pizza" class="pizza-img" />
+                    </div>
+                    <p class="pizza-description">
+                        Mozzarella, cheddar, and salame piccante (a spicy Italian cured sausage seasoned with chili peppers and paprika).
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3rd Pizza: Five Cheese -->
+        <div class="accordion-item genco-accordion-item">
+            <h2 class="accordion-header" id="headingThree">
+                <button class="accordion-button genco-accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    <i class="fa-solid fa-star text-warning me-2"></i>
+                    <span>3. Five Cheese</span>
+                    <span class="pizza-badge">Bestseller</span>
+                </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#pizzaMenuAccordion">
+                <div class="accordion-body text-start">
+                    <div class="pizza-img-wrapper">
+                        <img src="~/images/five-cheese.jpg" alt="Five Cheese Pizza" class="pizza-img" />
+                    </div>
+                    <p class="pizza-description">
+                        Our bestseller. Five cheeses. Zero notes.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="genco-footer-note">
+        &copy; @DateTime.Now.Year GENCO PIZZA &bull; All Rights Reserved
+    </div>
+
+</div>
+
+<!-- Copy Toast Notification -->
+<div id="copyToast" class="copy-toast">
+    <i class="fa-solid fa-check-circle me-1"></i> Phone number copied!
+</div>
+
+@section Scripts {
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function () {
+                var toast = document.getElementById('copyToast');
+                toast.classList.add('show');
+                setTimeout(function () {
+                    toast.classList.remove('show');
+                }, 2500);
+            }).catch(function (err) {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+}
