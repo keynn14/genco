@@ -2,578 +2,719 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>GENCO PIZZA | Profile & Menu</title>
-    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="images/genco-profile.jpg" />
-    <!-- Google Fonts -->
+    <!-- Google Fonts – Cormorant Garamond (elegant serif) + DM Sans (clean body) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
-    <!-- FontAwesome & Bootstrap Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
-    
+
     <style>
         :root {
-            --genco-maroon: #4A0E17;
-            --genco-maroon-dark: #2A050B;
-            --genco-maroon-light: #6A1825;
-            --genco-yellow: #E5A93C;
-            --genco-gold: #FFC845;
-            --genco-gold-hover: #FFE082;
-            --genco-card-bg: rgba(38, 7, 12, 0.88);
-            --genco-card-border: rgba(229, 169, 60, 0.35);
-            --genco-text-light: #FFF9F2;
-            --genco-text-muted: #E2CBB3;
+            --maroon: #4A0E17;
+            --maroon-dark: #1E0408;
+            --gold: #E5A93C;
+            --gold-bright: #FFC845;
+            --gold-hover: #FFE082;
+            --card-bg: rgba(30, 4, 8, 0.92);
+            --card-border: rgba(229,169,60,0.3);
+            --text-light: #FFF9F2;
+            --text-muted: #D4B896;
         }
 
-        html, body {
-            min-height: 100vh;
-            font-family: 'Montserrat', sans-serif;
-            color: var(--genco-text-light);
+        *, *::before, *::after { box-sizing: border-box; }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
             margin: 0;
             padding: 0;
-            background-color: var(--genco-maroon-dark);
+            font-family: 'DM Sans', sans-serif;
+            color: var(--text-light);
+            background: var(--maroon-dark);
+            overflow-x: hidden;
         }
 
-        .genco-body {
-            position: relative;
-            background-image: url('images/genco-bg.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
+        /* ─── BG ─── */
+        .bg-layer {
+            position: fixed; inset: 0;
+            background: url('images/genco-bg.jpg') center/cover no-repeat;
+            z-index: 0;
         }
-
-        .genco-bg-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at center, rgba(42, 5, 11, 0.65) 0%, rgba(20, 2, 5, 0.92) 100%),
-                        linear-gradient(to bottom, rgba(74, 14, 23, 0.5), rgba(42, 5, 11, 0.85));
+        .bg-overlay {
+            position: fixed; inset: 0;
+            background: radial-gradient(ellipse at 50% 30%, rgba(30,4,8,.55), rgba(10,1,3,.94));
             z-index: 1;
             pointer-events: none;
         }
 
-        .genco-main-wrapper {
+        /* ─── MAIN WRAPPER ─── */
+        .page-wrapper {
             position: relative;
             z-index: 2;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 15px;
-        }
-
-        .genco-profile-card {
-            width: 100%;
-            max-width: 540px;
-            background: var(--genco-card-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1.5px solid var(--genco-card-border);
-            border-radius: 28px;
-            padding: 40px 28px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(229, 169, 60, 0.15);
-        }
-
-        /* Header & Avatar */
-        .avatar-container {
-            position: relative;
-            width: 140px;
-            height: 140px;
-            margin: 0 auto 20px auto;
-        }
-
-        .profile-avatar {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
-            border: 4px solid var(--genco-gold);
-            box-shadow: 0 0 25px rgba(255, 200, 69, 0.4), inset 0 0 10px rgba(0,0,0,0.5);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .profile-avatar:hover {
-            transform: scale(1.04);
-            box-shadow: 0 0 35px rgba(255, 200, 69, 0.7);
-        }
-
-        .avatar-badge {
-            position: absolute;
-            bottom: 2px;
-            right: 2px;
-            background: var(--genco-gold);
-            color: var(--genco-maroon-dark);
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-            border: 3px solid var(--genco-maroon-dark);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-        }
-
-        .genco-title {
-            font-family: 'Playfair Display', serif;
-            font-weight: 800;
-            font-size: 2.3rem;
-            color: var(--genco-gold);
-            letter-spacing: 1.5px;
-            margin-bottom: 6px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6), 0 0 15px rgba(229, 169, 60, 0.3);
-        }
-
-        .genco-subtitle {
-            font-size: 0.95rem;
-            font-weight: 500;
-            font-style: italic;
-            color: var(--genco-text-muted);
-            margin-bottom: 24px;
-            letter-spacing: 0.5px;
-        }
-
-        .genco-divider {
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--genco-yellow), transparent);
-            margin: 24px 0;
-            opacity: 0.7;
-        }
-
-        /* Contact & Social Links */
-        .social-links-container {
             display: flex;
             flex-direction: column;
-            gap: 14px;
-            margin-bottom: 28px;
-        }
-
-        .social-btn {
-            display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 14px 22px;
-            border-radius: 16px;
-            background: rgba(110, 22, 36, 0.4);
-            border: 1.5px solid rgba(229, 169, 60, 0.3);
-            color: var(--genco-text-light);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            backdrop-filter: blur(5px);
+            padding: 0 0 40px 0;
+            min-height: 100vh;
         }
 
-        .social-btn:hover {
-            background: rgba(229, 169, 60, 0.18);
-            border-color: var(--genco-gold);
-            color: var(--genco-gold);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(255, 200, 69, 0.25);
-        }
-
-        .social-btn-content {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .social-icon {
-            font-size: 1.4rem;
-            width: 32px;
+        /* ─── PROFILE CARD ─── */
+        .profile-section {
+            width: 100%;
+            max-width: 420px;
+            padding: 36px 20px 28px;
             text-align: center;
         }
 
-        .social-btn-phone .social-icon { color: #4CAF50; }
-        .social-btn-fb .social-icon { color: #1877F2; }
-        .social-btn-ig .social-icon { color: #E4405F; }
-        .social-btn-tiktok .social-icon { color: #EE1D52; }
-
-        .social-arrow {
-            font-size: 0.9rem;
-            opacity: 0.6;
-            transition: transform 0.3s ease, opacity 0.3s ease;
+        .avatar-ring {
+            position: relative;
+            width: 120px; height: 120px;
+            margin: 0 auto 16px;
+        }
+        .avatar-ring img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3.5px solid var(--gold);
+            box-shadow: 0 0 22px rgba(229,169,60,.35);
+            transition: transform .3s, box-shadow .3s;
+        }
+        .avatar-ring img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(229,169,60,.6);
+        }
+        .avatar-ring .badge-icon {
+            position: absolute; bottom: 0; right: 0;
+            width: 32px; height: 32px;
+            background: var(--gold);
+            color: var(--maroon-dark);
+            border-radius: 50%;
+            display: grid; place-items: center;
+            font-size: .9rem;
+            border: 3px solid var(--maroon-dark);
         }
 
-        .social-btn:hover .social-arrow {
-            opacity: 1;
-            transform: translateX(4px);
+        .brand-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 700;
+            font-size: 2rem;
+            color: var(--gold);
+            letter-spacing: 2px;
+            margin: 0 0 4px;
+            text-shadow: 0 2px 12px rgba(0,0,0,.5);
+        }
+        .brand-tagline {
+            font-size: .85rem;
+            font-style: italic;
+            color: var(--text-muted);
+            margin: 0 0 22px;
         }
 
-        /* Phone Quick Call Action Card */
-        .phone-card {
-            background: linear-gradient(135deg, rgba(110, 22, 36, 0.7), rgba(42, 5, 11, 0.9));
-            border: 1.5px solid var(--genco-yellow);
-            border-radius: 20px;
-            padding: 16px 20px;
-            margin-bottom: 24px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        /* ─── PHONE CARD ─── */
+        .phone-strip {
+            background: linear-gradient(135deg, rgba(90,16,28,.7), rgba(30,4,8,.9));
+            border: 1.5px solid var(--gold);
+            border-radius: 16px;
+            padding: 14px 16px;
+            margin: 0 auto 20px;
+            max-width: 420px;
         }
-
-        .phone-card-title {
-            font-size: 0.8rem;
+        .phone-strip-label {
+            font-size: .7rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: var(--genco-gold);
+            color: var(--gold);
             font-weight: 700;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
-
-        .phone-card-body {
+        .phone-strip-body {
             display: flex;
             align-items: center;
             justify-content: space-between;
-        }
-
-        .phone-number-display {
-            font-size: 1.35rem;
-            font-weight: 800;
-            letter-spacing: 1px;
-            color: #FFFFFF;
-        }
-
-        .phone-actions {
-            display: flex;
             gap: 8px;
         }
-
-        .phone-action-btn {
-            background: var(--genco-gold);
-            color: var(--genco-maroon-dark);
+        .phone-num {
+            font-size: 1.15rem;
+            font-weight: 800;
+            letter-spacing: .5px;
+        }
+        .phone-btns { display: flex; gap: 6px; }
+        .phone-btn {
+            background: var(--gold);
+            color: var(--maroon-dark);
             border: none;
-            padding: 8px 14px;
-            border-radius: 12px;
+            padding: 7px 12px;
+            border-radius: 10px;
             font-weight: 700;
-            font-size: 0.85rem;
+            font-size: .8rem;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            transition: all 0.25s ease;
+            gap: 5px;
             cursor: pointer;
+            transition: background .2s, transform .2s;
         }
-
-        .phone-action-btn:hover {
-            background: var(--genco-gold-hover);
-            color: var(--genco-maroon);
+        .phone-btn:hover {
+            background: var(--gold-hover);
             transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(255, 200, 69, 0.4);
         }
 
-        /* Section Title */
-        .section-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.4rem;
-            color: var(--genco-gold);
-            margin-bottom: 16px;
+        /* ─── SOCIAL LINKS ─── */
+        .socials {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 420px;
+            width: 100%;
+            margin: 0 auto 10px;
+            padding: 0 20px;
+        }
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 13px 18px;
+            border-radius: 14px;
+            background: rgba(80,14,24,.45);
+            border: 1.5px solid var(--card-border);
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: .9rem;
+            transition: all .3s ease;
+        }
+        .social-link:hover {
+            background: rgba(229,169,60,.15);
+            border-color: var(--gold);
+            color: var(--gold);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,.35);
+        }
+        .social-link .icon { font-size: 1.2rem; width: 28px; text-align: center; margin-right: 12px; }
+        .social-link .arrow { opacity: .5; transition: transform .3s, opacity .3s; }
+        .social-link:hover .arrow { opacity: 1; transform: translateX(3px); }
+        .sl-fb .icon { color: #1877F2; }
+        .sl-ig .icon { color: #E4405F; }
+        .sl-tk .icon { color: #EE1D52; }
+
+        /* ─── DIVIDER ─── */
+        .gold-divider {
+            height: 2px;
+            max-width: 420px;
+            width: calc(100% - 40px);
+            margin: 22px auto;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            opacity: .6;
+        }
+
+        /* ─── SECTION TITLE ─── */
+        .menu-heading {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: var(--gold);
+            text-align: center;
+            margin: 0 0 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
         }
 
-        /* Accordion Menu */
-        .genco-accordion {
-            --bs-accordion-bg: transparent;
-            --bs-accordion-border-color: rgba(229, 169, 60, 0.25);
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .genco-accordion-item {
-            background: rgba(65, 12, 21, 0.6) !important;
-            border: 1.5px solid rgba(229, 169, 60, 0.25) !important;
-            border-radius: 18px !important;
-            overflow: hidden;
-            transition: border-color 0.3s ease;
-        }
-
-        .genco-accordion-item:hover {
-            border-color: var(--genco-yellow) !important;
-        }
-
-        .genco-accordion-button {
-            background: transparent !important;
-            color: var(--genco-text-light) !important;
-            font-weight: 700;
-            font-size: 1.05rem;
-            padding: 16px 20px !important;
-            box-shadow: none !important;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .genco-accordion-button::after {
-            filter: invert(75%) sepia(80%) saturate(400%) hue-rotate(350deg);
-        }
-
-        .genco-accordion-button:not(.collapsed) {
-            color: var(--genco-gold) !important;
-            background: rgba(229, 169, 60, 0.12) !important;
-        }
-
-        .pizza-badge {
-            background: var(--genco-gold);
-            color: var(--genco-maroon-dark);
-            font-size: 0.7rem;
-            font-weight: 800;
-            padding: 3px 8px;
-            border-radius: 20px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-left: auto;
-        }
-
-        .pizza-img-wrapper {
+        /* ─── 3D CAROUSEL ─── */
+        .carousel-viewport {
             width: 100%;
-            height: 220px;
-            border-radius: 14px;
-            overflow: hidden;
-            margin-bottom: 14px;
-            border: 1px solid rgba(229, 169, 60, 0.3);
+            max-width: 420px;
+            height: 320px;
+            perspective: 900px;
+            margin: 0 auto;
+            position: relative;
+            overflow: visible;
+            cursor: grab;
+            touch-action: pan-y;
+        }
+        .carousel-viewport:active { cursor: grabbing; }
+
+        .carousel-ring {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform .6s cubic-bezier(.25,.8,.25,1);
         }
 
-        .pizza-img {
+        .carousel-item-3d {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            left: 50%;
+            top: 50%;
+            margin-left: -100px;
+            margin-top: -100px;
+            backface-visibility: hidden;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid var(--gold);
+            box-shadow: 0 8px 30px rgba(0,0,0,.5), 0 0 15px rgba(229,169,60,.2);
+            cursor: pointer;
+            transition: box-shadow .3s, border-color .3s;
+        }
+        .carousel-item-3d img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.4s ease;
+            pointer-events: none;
+        }
+        .carousel-item-3d.active-slide {
+            border-color: var(--gold-bright);
+            box-shadow: 0 8px 40px rgba(0,0,0,.6), 0 0 25px rgba(255,200,69,.4);
         }
 
-        .genco-accordion-item:hover .pizza-img {
-            transform: scale(1.05);
+        /* Navigation dots */
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 10px 0 8px;
+        }
+        .carousel-dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            background: rgba(229,169,60,.3);
+            border: 1.5px solid var(--gold);
+            cursor: pointer;
+            transition: background .3s, transform .3s;
+        }
+        .carousel-dot.active {
+            background: var(--gold);
+            transform: scale(1.3);
         }
 
-        .pizza-description {
-            font-size: 0.92rem;
-            line-height: 1.5;
-            color: var(--genco-text-muted);
-            margin-bottom: 0;
-        }
-
-        /* Footer Note */
-        .genco-footer-note {
+        /* Pizza name under carousel */
+        .carousel-pizza-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--gold);
             text-align: center;
-            font-size: 0.8rem;
-            color: rgba(255, 249, 242, 0.5);
-            margin-top: 28px;
-            letter-spacing: 0.5px;
+            margin: 4px 0 2px;
+            text-shadow: 0 2px 8px rgba(0,0,0,.4);
+            transition: opacity .4s;
+        }
+        .carousel-pizza-badge {
+            display: inline-block;
+            background: var(--gold);
+            color: var(--maroon-dark);
+            font-family: 'DM Sans', sans-serif;
+            font-size: .65rem;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
         }
 
-        /* Toast Copy Feedback */
+        /* ─── DETAIL CARD (scroll-triggered zoom target) ─── */
+        .pizza-detail-card {
+            max-width: 420px;
+            width: calc(100% - 32px);
+            margin: 0 auto 20px;
+            background: rgba(50,8,16,.7);
+            border: 1.5px solid var(--card-border);
+            border-radius: 20px;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px) scale(.95);
+            transition: opacity .6s ease, transform .6s ease;
+        }
+        .pizza-detail-card.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .detail-img-wrap {
+            width: 100%;
+            aspect-ratio: 1/1;
+            overflow: hidden;
+            position: relative;
+        }
+        .detail-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform .5s ease;
+        }
+        .pizza-detail-card.visible .detail-img-wrap img {
+            transform: scale(1.02);
+        }
+        .detail-img-overlay {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            padding: 20px 16px 14px;
+            background: linear-gradient(transparent, rgba(10,1,3,.85));
+        }
+        .detail-img-overlay h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #fff;
+            margin: 0 0 2px;
+        }
+        .detail-body {
+            padding: 16px 18px 18px;
+        }
+        .detail-body p {
+            font-size: .88rem;
+            line-height: 1.55;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        /* ─── FOOTER ─── */
+        .site-footer {
+            text-align: center;
+            font-size: .75rem;
+            color: rgba(255,249,242,.4);
+            padding: 20px 0 12px;
+            letter-spacing: .5px;
+        }
+
+        /* ─── COPY TOAST ─── */
         .copy-toast {
             position: fixed;
-            bottom: 25px;
+            bottom: 20px;
             left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: var(--genco-gold);
-            color: var(--genco-maroon-dark);
+            transform: translateX(-50%) translateY(80px);
+            background: var(--gold);
+            color: var(--maroon-dark);
             font-weight: 700;
-            padding: 10px 22px;
+            padding: 10px 20px;
             border-radius: 25px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            box-shadow: 0 8px 20px rgba(0,0,0,.5);
             z-index: 9999;
             opacity: 0;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all .4s cubic-bezier(.175,.885,.32,1.275);
+            font-size: .85rem;
         }
-
         .copy-toast.show {
             opacity: 1;
             transform: translateX(-50%) translateY(0);
         }
 
-        @media (max-width: 480px) {
-            .genco-profile-card {
-                padding: 30px 18px;
-                border-radius: 22px;
-            }
-            .genco-title {
-                font-size: 1.85rem;
-            }
-            .phone-number-display {
-                font-size: 1.15rem;
-            }
-            .pizza-img-wrapper {
-                height: 180px;
-            }
+        /* ─── MOBILE-FIRST RESPONSIVE ─── */
+        @media (max-width: 380px) {
+            .brand-name { font-size: 1.7rem; }
+            .phone-num { font-size: 1rem; }
+            .carousel-viewport { height: 280px; }
+            .carousel-item-3d { width: 160px; height: 160px; margin-left: -80px; margin-top: -80px; }
+            .carousel-pizza-name { font-size: 1.25rem; }
+        }
+        @media (min-width: 480px) {
+            .carousel-viewport { height: 360px; }
+            .carousel-item-3d { width: 220px; height: 220px; margin-left: -110px; margin-top: -110px; }
+        }
+        @media (min-width: 768px) {
+            .profile-section { padding-top: 50px; }
+            .carousel-viewport { height: 400px; }
+            .carousel-item-3d { width: 240px; height: 240px; margin-left: -120px; margin-top: -120px; }
+        }
+
+        /* ─── AUTO-SPIN ANIMATION ─── */
+        @keyframes autoSpin {
+            from { transform: rotateY(var(--start-angle)); }
+            to   { transform: rotateY(var(--end-angle)); }
+        }
+        .carousel-ring.auto-spinning {
+            animation: autoSpin 25s linear infinite;
         }
     </style>
 </head>
-<body class="genco-body">
-    <div class="genco-bg-overlay"></div>
+<body>
+    <div class="bg-layer"></div>
+    <div class="bg-overlay"></div>
 
-    <main role="main" class="genco-main-wrapper">
-        <div class="genco-profile-card text-center">
+    <div class="page-wrapper">
 
-            <!-- Profile Avatar & Header -->
-            <div class="avatar-container">
-                <img src="images/genco-profile.jpg" alt="GENCO PIZZA Logo" class="profile-avatar" />
-                <div class="avatar-badge">
-                    <i class="fa-solid fa-pizza-slice"></i>
+        <!-- ══════ PROFILE ══════ -->
+        <section class="profile-section">
+            <div class="avatar-ring">
+                <img src="images/genco-profile.jpg" alt="GENCO PIZZA Logo" />
+                <div class="badge-icon"><i class="fa-solid fa-pizza-slice"></i></div>
+            </div>
+            <h1 class="brand-name">GENCO PIZZA</h1>
+            <p class="brand-tagline">Italian-inspired, Homemade with Love.</p>
+        </section>
+
+        <!-- ══════ PHONE ══════ -->
+        <div class="phone-strip">
+            <div class="phone-strip-label"><i class="fa-solid fa-headset me-1"></i> Order & Inquiries</div>
+            <div class="phone-strip-body">
+                <span class="phone-num">0995 833 8512</span>
+                <div class="phone-btns">
+                    <a href="tel:09958338512" class="phone-btn"><i class="fa-solid fa-phone"></i> Call</a>
+                    <button class="phone-btn" onclick="copyNum()"><i class="fa-solid fa-copy"></i></button>
                 </div>
             </div>
-
-            <h1 class="genco-title">GENCO PIZZA</h1>
-            <p class="genco-subtitle">Italian-inspired, Homemade with Love.</p>
-
-            <!-- Quick Call & Contact Card -->
-            <div class="phone-card">
-                <div class="phone-card-title">
-                    <i class="fa-solid fa-headset me-1"></i> Order & Inquiries
-                </div>
-                <div class="phone-card-body">
-                    <div class="phone-number-display">0995 833 8512</div>
-                    <div class="phone-actions">
-                        <a href="tel:09958338512" class="phone-action-btn" title="Call Now">
-                            <i class="fa-solid fa-phone"></i> Call
-                        </a>
-                        <button type="button" class="phone-action-btn" onclick="copyToClipboard('09958338512')" title="Copy Number">
-                            <i class="fa-solid fa-copy"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Social Media Links -->
-            <div class="social-links-container">
-                <!-- Facebook -->
-                <a href="https://www.facebook.com/gencopizza/" target="_blank" rel="noopener noreferrer" class="social-btn social-btn-fb">
-                    <div class="social-btn-content">
-                        <i class="fa-brands fa-facebook-f social-icon"></i>
-                        <span>Facebook</span>
-                    </div>
-                    <i class="fa-solid fa-arrow-right social-arrow"></i>
-                </a>
-
-                <!-- Instagram -->
-                <a href="https://www.instagram.com/gencopizzadavaocity/" target="_blank" rel="noopener noreferrer" class="social-btn social-btn-ig">
-                    <div class="social-btn-content">
-                        <i class="fa-brands fa-instagram social-icon"></i>
-                        <span>Instagram</span>
-                    </div>
-                    <i class="fa-solid fa-arrow-right social-arrow"></i>
-                </a>
-
-                <!-- TikTok -->
-                <a href="https://www.tiktok.com/@genco.pizza.davao" target="_blank" rel="noopener noreferrer" class="social-btn social-btn-tiktok">
-                    <div class="social-btn-content">
-                        <i class="fa-brands fa-tiktok social-icon"></i>
-                        <span>TikTok</span>
-                    </div>
-                    <i class="fa-solid fa-arrow-right social-arrow"></i>
-                </a>
-            </div>
-
-            <div class="genco-divider"></div>
-
-            <!-- Featured Pizza Menu Dropdown / Accordion -->
-            <div class="section-title">
-                <i class="fa-solid fa-fire text-warning"></i> Featured Pizza Menu <i class="fa-solid fa-fire text-warning"></i>
-            </div>
-
-            <div class="accordion genco-accordion" id="pizzaMenuAccordion">
-                
-                <!-- 1st Pizza: La Suprema Sisig -->
-                <div class="accordion-item genco-accordion-item">
-                    <h2 class="accordion-header" id="headingOne">
-                        <button class="accordion-button genco-accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            <i class="fa-solid fa-pepper-hot text-danger me-2"></i>
-                            <span>1. La Suprema Sisig</span>
-                            <span class="pizza-badge">Special</span>
-                        </button>
-                    </h2>
-                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#pizzaMenuAccordion">
-                        <div class="accordion-body text-start">
-                            <div class="pizza-img-wrapper">
-                                <img src="images/la-suprema-sisig.jpg" alt="La Suprema Sisig Pizza" class="pizza-img" />
-                            </div>
-                            <p class="pizza-description">
-                                Chicken or pork sisig from HotMess, butter, mozzarella, cheddar, onions, chili, quail eggs, and mayonnaise.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 2nd Pizza: Classic Pepperoni -->
-                <div class="accordion-item genco-accordion-item">
-                    <h2 class="accordion-header" id="headingTwo">
-                        <button class="accordion-button genco-accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                            <i class="fa-solid fa-pizza-slice text-warning me-2"></i>
-                            <span>2. Classic Pepperoni</span>
-                            <span class="pizza-badge">Classic</span>
-                        </button>
-                    </h2>
-                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#pizzaMenuAccordion">
-                        <div class="accordion-body text-start">
-                            <div class="pizza-img-wrapper">
-                                <img src="images/classic-pepperoni.jpg" alt="Classic Pepperoni Pizza" class="pizza-img" />
-                            </div>
-                            <p class="pizza-description">
-                                Mozzarella, cheddar, and salame piccante (a spicy Italian cured sausage seasoned with chili peppers and paprika).
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 3rd Pizza: Five Cheese -->
-                <div class="accordion-item genco-accordion-item">
-                    <h2 class="accordion-header" id="headingThree">
-                        <button class="accordion-button genco-accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                            <i class="fa-solid fa-star text-warning me-2"></i>
-                            <span>3. Five Cheese</span>
-                            <span class="pizza-badge">Bestseller</span>
-                        </button>
-                    </h2>
-                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#pizzaMenuAccordion">
-                        <div class="accordion-body text-start">
-                            <div class="pizza-img-wrapper">
-                                <img src="images/five-cheese.jpg" alt="Five Cheese Pizza" class="pizza-img" />
-                            </div>
-                            <p class="pizza-description">
-                                Our bestseller. Five cheeses. Zero notes.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="genco-footer-note">
-                &copy; 2026 GENCO PIZZA &bull; All Rights Reserved
-            </div>
-
         </div>
-    </main>
 
-    <!-- Copy Toast Notification -->
+        <!-- ══════ SOCIALS ══════ -->
+        <div class="socials">
+            <a href="https://www.facebook.com/gencopizza/" target="_blank" rel="noopener" class="social-link sl-fb">
+                <span><i class="fa-brands fa-facebook-f icon"></i>Facebook</span>
+                <i class="fa-solid fa-arrow-right arrow"></i>
+            </a>
+            <a href="https://www.instagram.com/gencopizzadavaocity/" target="_blank" rel="noopener" class="social-link sl-ig">
+                <span><i class="fa-brands fa-instagram icon"></i>Instagram</span>
+                <i class="fa-solid fa-arrow-right arrow"></i>
+            </a>
+            <a href="https://www.tiktok.com/@genco.pizza.davao" target="_blank" rel="noopener" class="social-link sl-tk">
+                <span><i class="fa-brands fa-tiktok icon"></i>TikTok</span>
+                <i class="fa-solid fa-arrow-right arrow"></i>
+            </a>
+        </div>
+
+        <div class="gold-divider"></div>
+
+        <!-- ══════ FEATURED PIZZA CAROUSEL ══════ -->
+        <div class="menu-heading">
+            <i class="fa-solid fa-fire text-warning"></i>
+            Featured Pizza Menu
+            <i class="fa-solid fa-fire text-warning"></i>
+        </div>
+
+        <div class="carousel-viewport" id="carouselViewport">
+            <div class="carousel-ring" id="carouselRing">
+                <!-- items injected by JS -->
+            </div>
+        </div>
+
+        <div class="carousel-dots" id="carouselDots"></div>
+        <div class="carousel-pizza-name" id="carouselLabel">La Suprema Sisig</div>
+        <div style="text-align:center;margin-bottom:6px;">
+            <span class="carousel-pizza-badge" id="carouselBadge">Special</span>
+        </div>
+        <p style="text-align:center;font-size:.78rem;color:var(--text-muted);margin:0 0 12px;padding:0 20px;">
+            Swipe or tap a pizza &middot; scroll down for details
+        </p>
+
+        <!-- ══════ PIZZA DETAIL CARDS ══════ -->
+        <div class="pizza-detail-card" data-pizza="0" id="detail-0">
+            <div class="detail-img-wrap">
+                <img src="images/la-suprema-sisig.jpg" alt="La Suprema Sisig" />
+                <div class="detail-img-overlay">
+                    <h3>La Suprema Sisig</h3>
+                    <span class="carousel-pizza-badge">Special</span>
+                </div>
+            </div>
+            <div class="detail-body">
+                <p>Chicken or pork sisig from HotMess, butter, mozzarella, cheddar, onions, chili, quail eggs, and mayonnaise.</p>
+            </div>
+        </div>
+
+        <div class="pizza-detail-card" data-pizza="1" id="detail-1">
+            <div class="detail-img-wrap">
+                <img src="images/classic-pepperoni.jpg" alt="Classic Pepperoni" />
+                <div class="detail-img-overlay">
+                    <h3>Classic Pepperoni</h3>
+                    <span class="carousel-pizza-badge">Classic</span>
+                </div>
+            </div>
+            <div class="detail-body">
+                <p>Mozzarella, cheddar, and salame piccante (a spicy Italian cured sausage seasoned with chili peppers and paprika).</p>
+            </div>
+        </div>
+
+        <div class="pizza-detail-card" data-pizza="2" id="detail-2">
+            <div class="detail-img-wrap">
+                <img src="images/five-cheese.jpg" alt="Five Cheese" />
+                <div class="detail-img-overlay">
+                    <h3>Five Cheese</h3>
+                    <span class="carousel-pizza-badge">Bestseller</span>
+                </div>
+            </div>
+            <div class="detail-body">
+                <p>Our bestseller. Five cheeses. Zero notes.</p>
+            </div>
+        </div>
+
+        <div class="pizza-detail-card" data-pizza="3" id="detail-3">
+            <div class="detail-img-wrap">
+                <img src="images/bambino-bianca.jpg" alt="Bambino Bianca" />
+                <div class="detail-img-overlay">
+                    <h3>Bambino Bianca</h3>
+                    <span class="carousel-pizza-badge">New</span>
+                </div>
+            </div>
+            <div class="detail-body">
+                <p>Our newest creation, layered with mozzarella, Gouda, and honeyed corn.</p>
+            </div>
+        </div>
+
+        <div class="pizza-detail-card" data-pizza="4" id="detail-4">
+            <div class="detail-img-wrap">
+                <img src="images/queen-margherita.jpg" alt="Queen Margherita" />
+                <div class="detail-img-overlay">
+                    <h3>Queen Margherita</h3>
+                    <span class="carousel-pizza-badge">Classic</span>
+                </div>
+            </div>
+            <div class="detail-body">
+                <p>Mozzarella, Parmigiano Reggiano, cherry tomatoes, and fresh basil.</p>
+            </div>
+        </div>
+
+        <div class="site-footer">&copy; 2026 GENCO PIZZA &bull; All Rights Reserved</div>
+    </div>
+
+    <!-- Copy Toast -->
     <div id="copyToast" class="copy-toast">
         <i class="fa-solid fa-check-circle me-1"></i> Phone number copied!
     </div>
 
-    <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(function () {
-                var toast = document.getElementById('copyToast');
-                toast.classList.add('show');
-                setTimeout(function () {
-                    toast.classList.remove('show');
-                }, 2500);
-            }).catch(function (err) {
-                console.error('Could not copy text: ', err);
-            });
+    /* ── DATA ── */
+    const pizzas = [
+        { img: 'images/la-suprema-sisig.jpg',  name: 'La Suprema Sisig', badge: 'Special' },
+        { img: 'images/classic-pepperoni.jpg',  name: 'Classic Pepperoni', badge: 'Classic' },
+        { img: 'images/five-cheese.jpg',        name: 'Five Cheese',       badge: 'Bestseller' },
+        { img: 'images/bambino-bianca.jpg',     name: 'Bambino Bianca',    badge: 'New' },
+        { img: 'images/queen-margherita.jpg',   name: 'Queen Margherita',  badge: 'Classic' },
+    ];
+
+    const ring   = document.getElementById('carouselRing');
+    const vp     = document.getElementById('carouselViewport');
+    const dots   = document.getElementById('carouselDots');
+    const label  = document.getElementById('carouselLabel');
+    const badge  = document.getElementById('carouselBadge');
+    const N      = pizzas.length;
+    const SLICE  = 360 / N;
+    const RADIUS = 280;
+
+    let currentIndex = 0;
+    let autoTimer    = null;
+    let userTouched  = false;
+
+    /* ── BUILD ITEMS ── */
+    pizzas.forEach((p, i) => {
+        // carousel item
+        const el = document.createElement('div');
+        el.className = 'carousel-item-3d';
+        el.style.transform = `rotateY(${i * SLICE}deg) translateZ(${RADIUS}px)`;
+        el.innerHTML = `<img src="${p.img}" alt="${p.name}">`;
+        el.addEventListener('click', () => goTo(i));
+        ring.appendChild(el);
+
+        // dot
+        const dot = document.createElement('div');
+        dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+        dot.addEventListener('click', () => goTo(i));
+        dots.appendChild(dot);
+    });
+
+    function goTo(idx) {
+        currentIndex = idx;
+        const angle = -(idx * SLICE);
+        ring.classList.remove('auto-spinning');
+        ring.style.transform = `rotateY(${angle}deg)`;
+
+        // update label
+        label.textContent = pizzas[idx].name;
+        badge.textContent = pizzas[idx].badge;
+
+        // update dots
+        document.querySelectorAll('.carousel-dot').forEach((d, i) => {
+            d.classList.toggle('active', i === idx);
+        });
+
+        // update active slide styling
+        document.querySelectorAll('.carousel-item-3d').forEach((el, i) => {
+            el.classList.toggle('active-slide', i === idx);
+        });
+
+        // scroll the matching detail card into view
+        const card = document.getElementById('detail-' + idx);
+        if (card) {
+            setTimeout(() => {
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 350);
         }
+
+        resetAutoSpin();
+    }
+
+    /* ── AUTO-SPIN ── */
+    function startAutoSpin() {
+        if (userTouched) return;
+        autoTimer = setInterval(() => {
+            goTo((currentIndex + 1) % N);
+        }, 3000);
+    }
+
+    function resetAutoSpin() {
+        clearInterval(autoTimer);
+        userTouched = true;
+        // restart after 8s idle
+        setTimeout(() => {
+            userTouched = false;
+            startAutoSpin();
+        }, 8000);
+    }
+
+    startAutoSpin();
+    goTo(0);
+
+    /* ── SWIPE / DRAG ── */
+    let startX = 0, isDragging = false;
+
+    vp.addEventListener('touchstart', e => { startX = e.touches[0].clientX; isDragging = true; }, { passive: true });
+    vp.addEventListener('touchend', e => {
+        if (!isDragging) return;
+        isDragging = false;
+        const dx = e.changedTouches[0].clientX - startX;
+        if (Math.abs(dx) > 40) {
+            goTo((currentIndex + (dx < 0 ? 1 : -1) + N) % N);
+        }
+    });
+
+    vp.addEventListener('mousedown', e => { startX = e.clientX; isDragging = true; e.preventDefault(); });
+    document.addEventListener('mouseup', e => {
+        if (!isDragging) return;
+        isDragging = false;
+        const dx = e.clientX - startX;
+        if (Math.abs(dx) > 40) {
+            goTo((currentIndex + (dx < 0 ? 1 : -1) + N) % N);
+        }
+    });
+
+    /* ── SCROLL REVEAL DETAIL CARDS ── */
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('.pizza-detail-card').forEach(c => observer.observe(c));
+
+    /* ── COPY NUMBER ── */
+    function copyNum() {
+        navigator.clipboard.writeText('09958338512').then(() => {
+            const t = document.getElementById('copyToast');
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2500);
+        });
+    }
     </script>
 </body>
 </html>
