@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Featured Pizza Menu | GENCO PIZZA</title>
+  <link rel="icon" type="image/jpeg" href="images/genco-profile.jpg">
+  
+  <!-- Google Fonts: Playfair Display (Serif), Montserrat (Body), Oswald (Condensed) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Oswald:wght@600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
+
+  <style>
+    /* -------------------------------------------------------------
+       RESET & THEME VARIABLES
+    ------------------------------------------------------------- */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+      --bg-dark: #0f0705;
+      --bg-gradient: radial-gradient(ellipse at 50% 30%, #29100a 0%, #170705 55%, #0a0302 100%);
+      --gold-primary: #FFC845;
+      --gold-light: #FFE28A;
+      --gold-dark: #C99624;
+      --gold-glow: rgba(255, 200, 69, 0.4);
+      --red-accent: #B22222;
+      --red-glow: rgba(178, 34, 34, 0.35);
+      --text-white: #FFFFFF;
+      --text-cream: #FDF6EE;
+      --text-muted: #9E8F85;
+      --card-overlay: rgba(20, 7, 5, 0.65);
+    }
+
+    body {
+      background: var(--bg-dark);
+      background-image: var(--bg-gradient);
+      color: var(--text-cream);
+      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow-x: hidden;
+      padding: 20px 14px 40px;
+    }
+
+    /* -------------------------------------------------------------
+       FAINT DECORATIVE WATERMARK TEXT
+    ------------------------------------------------------------- */
+    .watermark-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+      opacity: 0.045;
+      user-select: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      transform: rotate(-12deg) scale(1.15);
+    }
+
+    .watermark-row {
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(3.5rem, 12vw, 8.5rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 12px;
+      white-space: nowrap;
+      color: var(--gold-primary);
+      text-shadow: 0 0 20px rgba(255, 200, 69, 0.4);
+    }
+
+    .watermark-row:nth-child(even) {
+      transform: translateX(-15%);
+    }
+
+    /* -------------------------------------------------------------
+       MAIN PHONE-PERSPECTIVE CONTAINER
+    ------------------------------------------------------------- */
+    .menu-carousel-wrapper {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 440px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    /* Header text */
+    .section-eyebrow {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 3.5px;
+      text-transform: uppercase;
+      color: var(--gold-primary);
+      font-weight: 600;
+      margin-bottom: 6px;
+      opacity: 0.9;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-eyebrow::before,
+    .section-eyebrow::after {
+      content: "";
+      display: inline-block;
+      width: 24px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-primary));
+    }
+
+    .section-eyebrow::after {
+      background: linear-gradient(90deg, var(--gold-primary), transparent);
+    }
+
+    .section-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 6.5vw, 2.3rem);
+      font-weight: 700;
+      color: var(--text-white);
+      letter-spacing: 0.5px;
+      margin-bottom: 24px;
+      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.8), 0 0 25px rgba(255, 200, 69, 0.15);
+    }
+
+    .section-headline span {
+      color: var(--gold-primary);
+      font-style: italic;
+    }
+
+    /* -------------------------------------------------------------
+       CIRCULAR PIZZA PLATE / FRAME
+    ------------------------------------------------------------- */
+    .plate-viewport {
+      position: relative;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      touch-action: pan-y;
+      user-select: none;
+      cursor: grab;
+    }
+
+    .plate-viewport:active {
+      cursor: grabbing;
+    }
+
+    /* Ambient glow behind the circular frame */
+    .plate-halo {
+      position: absolute;
+      width: clamp(250px, 74vw, 320px);
+      height: clamp(250px, 74vw, 320px);
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--gold-glow) 0%, var(--red-glow) 45%, transparent 72%);
+      filter: blur(24px);
+      z-index: 1;
+      opacity: 0.85;
+      transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+      pointer-events: none;
+    }
+
+    /* The actual circular frame container */
+    .plate-frame {
+      position: relative;
+      z-index: 2;
+      width: clamp(250px, 72vw, 320px);
+      height: clamp(250px, 72vw, 320px);
+      border-radius: 50%;
+      padding: 6px;
+      background: linear-gradient(145deg, #FFE28A 0%, #C99624 45%, #6A1825 85%, #FFE28A 100%);
+      box-shadow:
+        0 14px 40px rgba(0, 0, 0, 0.8),
+        0 0 35px rgba(255, 200, 69, 0.35),
+        0 0 12px rgba(255, 226, 138, 0.5);
+      transition: transform 0.25s ease-out;
+    }
+
+    .plate-inner-ring {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      background: #140503;
+      border: 2px solid rgba(255, 200, 69, 0.4);
+      box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.85);
+    }
+
+    /* Pizza images wrapper for slide/crossfade */
+    .pizza-slides-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+
+    .pizza-slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      opacity: 0;
+      transform: scale(0.92) rotate(-8deg);
+      transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1), transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: none;
+    }
+
+    .pizza-slide.active {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+      pointer-events: auto;
+    }
+
+    .pizza-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transform: scale(1.04);
+      transition: transform 0.6s ease-out;
+    }
+
+    .plate-viewport:hover .pizza-slide.active img {
+      transform: scale(1.08);
+    }
+
+    /* -------------------------------------------------------------
+       OVERLAY AT BOTTOM OF CIRCULAR IMAGE
+       (Brand Name + Bold Condensed White Pizza Name)
+    ------------------------------------------------------------- */
+    .plate-bottom-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 48%;
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      padding-bottom: 16px;
+      padding-left: 20px;
+      padding-right: 20px;
+      background: linear-gradient(
+        to top,
+        rgba(10, 3, 2, 0.95) 0%,
+        rgba(15, 5, 3, 0.85) 45%,
+        rgba(15, 5, 3, 0.4) 75%,
+        transparent 100%
+      );
+      border-bottom-left-radius: 160px;
+      border-bottom-right-radius: 160px;
+      pointer-events: none;
+    }
+
+    .overlay-brand {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 3.5px;
+      text-transform: uppercase;
+      color: var(--gold-primary);
+      margin-bottom: 2px;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+      opacity: 0.95;
+    }
+
+    .overlay-pizza-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(1.15rem, 4.4vw, 1.45rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #FFFFFF;
+      line-height: 1.1;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    /* -------------------------------------------------------------
+       SWIPE ARROW CONTROLS (DESKTOP & TOUCH ENHANCEMENT)
+    ------------------------------------------------------------- */
+    .nav-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(30, 10, 8, 0.75);
+      border: 1px solid rgba(255, 200, 69, 0.4);
+      color: var(--gold-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+      transition: all 0.25s ease;
+    }
+
+    .nav-arrow:hover {
+      background: rgba(255, 200, 69, 0.2);
+      border-color: var(--gold-light);
+      color: #FFFFFF;
+      transform: translateY(-50%) scale(1.1);
+      box-shadow: 0 0 15px rgba(255, 200, 69, 0.4);
+    }
+
+    .nav-arrow:active {
+      transform: translateY(-50%) scale(0.95);
+    }
+
+    .nav-arrow.prev { left: -6px; }
+    .nav-arrow.next { right: -6px; }
+
+    .nav-arrow svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    /* -------------------------------------------------------------
+       PAGINATION DOTS (5 DOTS, CURRENT ONE HIGHLIGHTED GOLD)
+    ------------------------------------------------------------- */
+    .pagination-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 12px;
+      margin-bottom: 18px;
+    }
+
+    .page-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.22);
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .page-dot:hover {
+      background: rgba(255, 200, 69, 0.6);
+      transform: scale(1.2);
+    }
+
+    .page-dot.active {
+      width: 26px;
+      border-radius: 12px;
+      background: linear-gradient(90deg, #FFE28A, #FFC845);
+      box-shadow: 0 0 12px rgba(255, 200, 69, 0.6);
+    }
+
+    /* -------------------------------------------------------------
+       PIZZA DETAILS SECTION BELOW DOTS
+    ------------------------------------------------------------- */
+    .pizza-info-box {
+      width: 100%;
+      padding: 0 10px;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    /* Pizza heading in elegant gold serif */
+    .pizza-serif-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.7rem, 5.8vw, 2.15rem);
+      font-weight: 700;
+      color: var(--gold-primary);
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+      line-height: 1.2;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
+    }
+
+    /* Pill-shaped badge label underneath in gold outline */
+    .badge-wrapper {
+      margin-bottom: 12px;
+    }
+
+    .pill-badge {
+      display: inline-block;
+      padding: 4px 16px;
+      border-radius: 50px;
+      border: 1.2px solid var(--gold-primary);
+      background: rgba(255, 200, 69, 0.08);
+      color: var(--gold-light);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(4px);
+    }
+
+    /* Pizza description */
+    .pizza-description {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--text-cream);
+      font-weight: 400;
+      max-width: 380px;
+      margin: 0 auto 16px auto;
+      opacity: 0.92;
+      min-height: 48px;
+    }
+
+    /* Small gray helper text */
+    .helper-text {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+    }
+
+    .helper-text svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+      opacity: 0.75;
+      animation: swipePrompt 2s infinite ease-in-out;
+    }
+
+    @keyframes swipePrompt {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(5px); }
+    }
+
+    /* -------------------------------------------------------------
+       ORDER ACTION & QUICK CONTACT BAR
+    ------------------------------------------------------------- */
+    .order-action-bar {
+      margin-top: 24px;
+      display: flex;
+      gap: 12px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, #FFC845, #D49B24);
+      color: #1A0704;
+      font-weight: 700;
+      font-size: 0.88rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 12px 24px;
+      border-radius: 50px;
+      text-decoration: none;
+      box-shadow: 0 6px 20px rgba(255, 200, 69, 0.35);
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-gold:hover {
+      background: linear-gradient(135deg, #FFE28A, #FFC845);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(255, 200, 69, 0.5);
+    }
+
+    .btn-outline {
+      border: 1.5px solid rgba(255, 200, 69, 0.45);
+      color: var(--gold-light);
+      background: rgba(30, 10, 8, 0.5);
+      font-weight: 600;
+      font-size: 0.88rem;
+      padding: 12px 20px;
+      border-radius: 50px;
+      text-decoration: none;
+      backdrop-filter: blur(8px);
+      transition: all 0.25s ease;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--gold-primary);
+      background: rgba(255, 200, 69, 0.15);
+      color: #FFFFFF;
+      transform: translateY(-2px);
+    }
+
+    /* -------------------------------------------------------------
+       PHONE-PERSPECTIVE MOCKUP BEZEL (OPTIONAL WRAPPER STYLING)
+    ------------------------------------------------------------- */
+    @media (min-width: 600px) {
+      .menu-carousel-wrapper {
+        background: rgba(22, 8, 6, 0.7);
+        border: 1px solid rgba(255, 200, 69, 0.2);
+        border-radius: 40px;
+        padding: 36px 28px;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(255, 200, 69, 0.1);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Decorative Faint Watermark Text Background -->
+  <div class="watermark-background" aria-hidden="true">
+    <div class="watermark-row">GENCO PIZZA &bull; ITALIAN INSPIRED &bull; GENCO PIZZA</div>
+    <div class="watermark-row">HOMEMADE WITH LOVE &bull; GENCO PIZZA &bull; HOMEMADE</div>
+    <div class="watermark-row">GENCO PIZZA &bull; BEST PIZZA IN TOWN &bull; GENCO</div>
+    <div class="watermark-row">SLOW-SIMMERED SAUCES &bull; GENCO PIZZA &bull; LOVE</div>
+  </div>
+
+  <!-- Main Mobile-First Carousel Card -->
+  <main class="menu-carousel-wrapper">
+    
+    <!-- Section Eyebrow & Headline -->
+    <div class="section-eyebrow">Artisanal Selection</div>
+    <h1 class="section-headline">Featured <span>Pizza Menu</span></h1>
+
+    <!-- Circular Plate / Pizza Frame with Swipe Gesture -->
+    <div class="plate-viewport" id="plateViewport" role="region" aria-label="Pizza Carousel">
+      
+      <!-- Ambient warm glow behind plate -->
+      <div class="plate-halo" id="plateHalo"></div>
+
+      <!-- Left Arrow Button -->
+      <button class="nav-arrow prev" id="prevBtn" aria-label="Previous Pizza" title="Previous Pizza">
+        <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+      </button>
+
+      <!-- The Circular Frame (Pizza/Plate Shape) -->
+      <div class="plate-frame" id="plateFrame">
+        <div class="plate-inner-ring">
+          
+          <!-- Circular Slides Container -->
+          <div class="pizza-slides-container" id="slidesContainer">
+            <!-- Pizza 1: Bambino Bianca -->
+            <div class="pizza-slide active" data-index="0">
+              <img src="images/bambino-bianca.jpg" alt="Bambino Bianca Pizza" loading="eager">
+            </div>
+
+            <!-- Pizza 2: Queen Margherita -->
+            <div class="pizza-slide" data-index="1">
+              <img src="images/queen-margherita.jpg" alt="Queen Margherita Pizza" loading="lazy">
+            </div>
+
+            <!-- Pizza 3: Five Cheese -->
+            <div class="pizza-slide" data-index="2">
+              <img src="images/five-cheese.jpg" alt="Five Cheese Pizza" loading="lazy">
+            </div>
+
+            <!-- Pizza 4: Classic Pepperoni -->
+            <div class="pizza-slide" data-index="3">
+              <img src="images/classic-pepperoni.jpg" alt="Classic Pepperoni Pizza" loading="lazy">
+            </div>
+
+            <!-- Pizza 5: La Suprema Sisig -->
+            <div class="pizza-slide" data-index="4">
+              <img src="images/la-suprema-sisig.jpg" alt="La Suprema Sisig Pizza" loading="lazy">
+            </div>
+          </div>
+
+          <!-- Bottom Overlay: Small Brand Name & Bold Condensed White Pizza Name -->
+          <div class="plate-bottom-overlay">
+            <span class="overlay-brand">GENCO PIZZA</span>
+            <div class="overlay-pizza-title" id="overlayTitle">BIANCA BAMBINO</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Right Arrow Button -->
+      <button class="nav-arrow next" id="nextBtn" aria-label="Next Pizza" title="Next Pizza">
+        <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+      </button>
+
+    </div>
+
+    <!-- Pagination Dots (5 Dots) -->
+    <div class="pagination-container" id="paginationContainer" role="tablist" aria-label="Pizza Selection Dots">
+      <button class="page-dot active" data-index="0" role="tab" aria-selected="true" aria-label="Pizza 1: Bambino Bianca"></button>
+      <button class="page-dot" data-index="1" role="tab" aria-selected="false" aria-label="Pizza 2: Queen Margherita"></button>
+      <button class="page-dot" data-index="2" role="tab" aria-selected="false" aria-label="Pizza 3: Five Cheese"></button>
+      <button class="page-dot" data-index="3" role="tab" aria-selected="false" aria-label="Pizza 4: Classic Pepperoni"></button>
+      <button class="page-dot" data-index="4" role="tab" aria-selected="false" aria-label="Pizza 5: La Suprema Sisig"></button>
+    </div>
+
+    <!-- Pizza Details Section Below Dots -->
+    <div class="pizza-info-box" id="infoBox">
+      
+      <!-- Pizza name as heading in elegant gold serif font -->
+      <h2 class="pizza-serif-title" id="serifTitle">Bambino Bianca</h2>
+
+      <!-- Pill-shaped badge label underneath in gold outline -->
+      <div class="badge-wrapper">
+        <span class="pill-badge" id="badgeLabel">NEW CREATION</span>
+      </div>
+
+      <!-- Pizza description text -->
+      <p class="pizza-description" id="pizzaDesc">
+        Our newest creation, layered with mozzarella, Gouda, and honeyed corn.
+      </p>
+
+      <!-- Small gray helper text -->
+      <div class="helper-text">
+        <svg viewBox="0 0 24 24"><path d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6v4H3l5 5 5-5h-3v-4zm1-1h4v4h3l-5 5-5-5h3v-4zM9 14h4v3h3l-5 5-5-5h3v-3z"/></svg>
+        <span>Swipe or tap a pizza &middot; scroll down for details</span>
+      </div>
+
+    </div>
+
+    <!-- Direct Order & Call Action Buttons -->
+    <div class="order-action-bar">
+      <a href="tel:09958338512" class="btn-gold">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+        <span>Order: 0995 833 8512</span>
+      </a>
+      <a href="index.html" class="btn-outline">
+        <span>Full Profile</span>
+      </a>
+    </div>
+
+  </main>
+
+  <!-- -------------------------------------------------------------
+       VANILLA JAVASCRIPT: INTERACTIVE SWIPER, DRAG, & TRANSITIONS
+  ------------------------------------------------------------- -->
+  <script>
+    (function() {
+      // Data definitions for the 5 pizzas
+      const pizzas = [
+        {
+          overlayTitle: "BIANCA BAMBINO",
+          serifTitle: "Bambino Bianca",
+          badge: "NEW CREATION",
+          desc: "Our newest creation, layered with mozzarella, Gouda, and honeyed corn."
+        },
+        {
+          overlayTitle: "QUEEN MARGHERITA",
+          serifTitle: "Queen Margherita",
+          badge: "HERITAGE CLASSIC",
+          desc: "Mozzarella, Parmigiano Reggiano, cherry tomatoes, and fresh basil."
+        },
+        {
+          overlayTitle: "FIVE CHEESE",
+          serifTitle: "Five Cheese",
+          badge: "BESTSELLER",
+          desc: "Our bestseller. Five cheeses. Zero notes."
+        },
+        {
+          overlayTitle: "CLASSIC PEPPERONI",
+          serifTitle: "Classic Pepperoni",
+          badge: "CROWD FAVORITE",
+          desc: "Mozzarella, cheddar, and salame piccante (a spicy Italian cured sausage seasoned with chili peppers and paprika)."
+        },
+        {
+          overlayTitle: "LA SUPREMA SISIG",
+          serifTitle: "La Suprema Sisig",
+          badge: "SIGNATURE FUSION",
+          desc: "Chicken or pork sisig from HotMess, butter, mozzarella, cheddar, onions, chili, quail eggs, and mayonnaise."
+        }
+      ];
+
+      let currentIndex = 0;
+      const totalPizzas = pizzas.length;
+
+      // DOM Elements
+      const slides = document.querySelectorAll('.pizza-slide');
+      const dots = document.querySelectorAll('.page-dot');
+      const overlayTitle = document.getElementById('overlayTitle');
+      const serifTitle = document.getElementById('serifTitle');
+      const badgeLabel = document.getElementById('badgeLabel');
+      const pizzaDesc = document.getElementById('pizzaDesc');
+      const infoBox = document.getElementById('infoBox');
+      const plateFrame = document.getElementById('plateFrame');
+      const plateHalo = document.getElementById('plateHalo');
+      const viewport = document.getElementById('plateViewport');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+
+      let isAnimating = false;
+
+      // Function to render active pizza state
+      function goToPizza(newIndex, direction = 0) {
+        if (newIndex === currentIndex || isAnimating) return;
+        isAnimating = true;
+
+        const prevIndex = currentIndex;
+        currentIndex = (newIndex + totalPizzas) % totalPizzas;
+
+        // Animate out old slide
+        slides[prevIndex].classList.remove('active');
+        if (direction !== 0) {
+          slides[prevIndex].style.transform = `scale(0.9) rotate(${direction * -15}deg)`;
+        }
+
+        // Animate in new slide
+        slides[currentIndex].classList.add('active');
+        slides[currentIndex].style.transform = '';
+
+        // Animate text info crossfade
+        infoBox.style.opacity = '0';
+        infoBox.style.transform = 'translateY(8px)';
+        overlayTitle.style.opacity = '0';
+        overlayTitle.style.transform = 'scale(0.92)';
+
+        setTimeout(() => {
+          const currentData = pizzas[currentIndex];
+          overlayTitle.textContent = currentData.overlayTitle;
+          serifTitle.textContent = currentData.serifTitle;
+          badgeLabel.textContent = currentData.badge;
+          pizzaDesc.textContent = currentData.desc;
+
+          overlayTitle.style.opacity = '1';
+          overlayTitle.style.transform = 'scale(1)';
+          infoBox.style.opacity = '1';
+          infoBox.style.transform = 'translateY(0)';
+        }, 200);
+
+        // Update pagination dots
+        dots.forEach((dot, idx) => {
+          if (idx === currentIndex) {
+            dot.classList.add('active');
+            dot.setAttribute('aria-selected', 'true');
+          } else {
+            dot.classList.remove('active');
+            dot.setAttribute('aria-selected', 'false');
+          }
+        });
+
+        // Subtle plate wobble on change
+        plateHalo.style.transform = `scale(1.1) rotate(${currentIndex * 35}deg)`;
+
+        setTimeout(() => {
+          plateHalo.style.transform = '';
+          isAnimating = false;
+        }, 450);
+      }
+
+      function nextPizza() {
+        goToPizza(currentIndex + 1, 1);
+      }
+
+      function prevPizza() {
+        goToPizza(currentIndex - 1, -1);
+      }
+
+      // Button listeners
+      nextBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        nextPizza();
+      });
+
+      prevBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        prevPizza();
+      });
+
+      // Dot listeners
+      dots.forEach((dot) => {
+        dot.addEventListener('click', () => {
+          const targetIndex = parseInt(dot.getAttribute('data-index'), 10);
+          if (targetIndex !== currentIndex) {
+            goToPizza(targetIndex, targetIndex > currentIndex ? 1 : -1);
+          }
+        });
+      });
+
+      // -----------------------------------------------------------
+      // TOUCH & MOUSE SWIPE / DRAG SUPPORT
+      // -----------------------------------------------------------
+      let startX = 0;
+      let startY = 0;
+      let currentTranslateX = 0;
+      let isDragging = false;
+      let isHorizontalScroll = false;
+      const swipeThreshold = 45; // Minimum drag distance in px to trigger change
+
+      function handleDragStart(x, y) {
+        if (isAnimating) return;
+        startX = x;
+        startY = y;
+        isDragging = true;
+        isHorizontalScroll = false;
+        currentTranslateX = 0;
+        plateFrame.style.transition = 'none';
+      }
+
+      function handleDragMove(x, y) {
+        if (!isDragging) return;
+        const diffX = x - startX;
+        const diffY = y - startY;
+
+        // Check if movement is primarily horizontal
+        if (!isHorizontalScroll) {
+          if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 8) {
+            isHorizontalScroll = true;
+          } else if (Math.abs(diffY) > 10) {
+            // User is scrolling vertically, cancel horizontal drag
+            isDragging = false;
+            plateFrame.style.transition = 'transform 0.3s ease-out';
+            plateFrame.style.transform = '';
+            return;
+          }
+        }
+
+        if (isHorizontalScroll) {
+          currentTranslateX = diffX;
+          // Apply rubber-band effect
+          const dragRotation = diffX * 0.04;
+          plateFrame.style.transform = `translateX(${diffX * 0.3}px) rotate(${dragRotation}deg)`;
+        }
+      }
+
+      function handleDragEnd() {
+        if (!isDragging) return;
+        isDragging = false;
+        plateFrame.style.transition = 'transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1)';
+        plateFrame.style.transform = '';
+
+        if (isHorizontalScroll) {
+          if (currentTranslateX < -swipeThreshold) {
+            nextPizza();
+          } else if (currentTranslateX > swipeThreshold) {
+            prevPizza();
+          }
+        }
+        currentTranslateX = 0;
+        isHorizontalScroll = false;
+      }
+
+      // Touch events
+      viewport.addEventListener('touchstart', (e) => {
+        const touch = e.touches[0];
+        handleDragStart(touch.clientX, touch.clientY);
+      }, { passive: true });
+
+      viewport.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        const touch = e.touches[0];
+        handleDragMove(touch.clientX, touch.clientY);
+      }, { passive: true });
+
+      viewport.addEventListener('touchend', () => {
+        handleDragEnd();
+      });
+
+      viewport.addEventListener('touchcancel', () => {
+        handleDragEnd();
+      });
+
+      // Mouse drag events
+      viewport.addEventListener('mousedown', (e) => {
+        handleDragStart(e.clientX, e.clientY);
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        handleDragMove(e.clientX, e.clientY);
+      });
+
+      window.addEventListener('mouseup', () => {
+        handleDragEnd();
+      });
+
+      // Keyboard left/right arrows navigation
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') nextPizza();
+        if (e.key === 'ArrowLeft') prevPizza();
+      });
+
+      // Initial preload of pizza images to ensure instant smooth transitions
+      pizzas.forEach((p, idx) => {
+        if (idx > 0) {
+          const img = slides[idx].querySelector('img');
+          if (img && img.dataset.src) img.src = img.dataset.src;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
