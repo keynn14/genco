@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GENCO PIZZA | Profile & Menu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>GENCO PIZZA | Profile & Interactive Menu</title>
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="images/genco-profile.jpg" />
-    <!-- Google Fonts -->
+    <link rel="icon" type="image/jpeg" href="images/genco-profile.jpg" />
+    <!-- Google Fonts: Montserrat, Playfair Display, Oswald -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Oswald:wght@600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
     <!-- FontAwesome & Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -19,15 +19,15 @@
     <style>
         :root {
             --genco-maroon: #4A0E17;
-            --genco-maroon-dark: #2A050B;
+            --genco-maroon-dark: #1F0509;
             --genco-maroon-light: #6A1825;
             --genco-yellow: #E5A93C;
             --genco-gold: #FFC845;
             --genco-gold-hover: #FFE082;
-            --genco-card-bg: rgba(38, 7, 12, 0.88);
+            --genco-card-bg: rgba(35, 7, 11, 0.88);
             --genco-card-border: rgba(229, 169, 60, 0.35);
             --genco-text-light: #FFF9F2;
-            --genco-text-muted: #E2CBB3;
+            --genco-text-muted: #D1BEAE;
         }
 
         html, body {
@@ -37,6 +37,7 @@
             margin: 0;
             padding: 0;
             background-color: var(--genco-maroon-dark);
+            -webkit-tap-highlight-color: transparent;
         }
 
         .genco-body {
@@ -54,10 +55,42 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at center, rgba(42, 5, 11, 0.65) 0%, rgba(20, 2, 5, 0.92) 100%),
-                        linear-gradient(to bottom, rgba(74, 14, 23, 0.5), rgba(42, 5, 11, 0.85));
+            background: radial-gradient(circle at center, rgba(38, 5, 10, 0.72) 0%, rgba(15, 2, 4, 0.94) 100%),
+                        linear-gradient(to bottom, rgba(74, 14, 23, 0.5), rgba(31, 5, 9, 0.85));
             z-index: 1;
             pointer-events: none;
+        }
+
+        /* Faint Watermark Text Background */
+        .watermark-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+            opacity: 0.035;
+            user-select: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            transform: rotate(-12deg) scale(1.15);
+        }
+
+        .watermark-row {
+            font-family: 'Oswald', sans-serif;
+            font-size: clamp(3.5rem, 10vw, 7.5rem);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 12px;
+            white-space: nowrap;
+            color: var(--genco-gold);
+        }
+
+        .watermark-row:nth-child(even) {
+            transform: translateX(-15%);
         }
 
         .genco-main-wrapper {
@@ -67,27 +100,27 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 40px 15px;
+            padding: 30px 14px 50px;
         }
 
         .genco-profile-card {
             width: 100%;
-            max-width: 540px;
+            max-width: 480px;
             background: var(--genco-card-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
             border: 1.5px solid var(--genco-card-border);
-            border-radius: 28px;
-            padding: 40px 28px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(229, 169, 60, 0.15);
+            border-radius: 30px;
+            padding: 36px 24px 32px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 35px rgba(229, 169, 60, 0.15);
         }
 
         /* Header & Avatar */
         .avatar-container {
             position: relative;
-            width: 140px;
-            height: 140px;
-            margin: 0 auto 20px auto;
+            width: 130px;
+            height: 130px;
+            margin: 0 auto 16px auto;
         }
 
         .profile-avatar {
@@ -97,12 +130,11 @@
             border-radius: 50%;
             border: 4px solid var(--genco-gold);
             box-shadow: 0 0 25px rgba(255, 200, 69, 0.4), inset 0 0 10px rgba(0,0,0,0.5);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease;
         }
 
         .profile-avatar:hover {
             transform: scale(1.04);
-            box-shadow: 0 0 35px rgba(255, 200, 69, 0.7);
         }
 
         .avatar-badge {
@@ -111,13 +143,13 @@
             right: 2px;
             background: var(--genco-gold);
             color: var(--genco-maroon-dark);
-            width: 36px;
-            height: 36px;
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.1rem;
+            font-size: 1rem;
             border: 3px solid var(--genco-maroon-dark);
             box-shadow: 0 2px 8px rgba(0,0,0,0.4);
         }
@@ -125,106 +157,46 @@
         .genco-title {
             font-family: 'Playfair Display', serif;
             font-weight: 800;
-            font-size: 2.3rem;
+            font-size: 2.15rem;
             color: var(--genco-gold);
             letter-spacing: 1.5px;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6), 0 0 15px rgba(229, 169, 60, 0.3);
         }
 
         .genco-subtitle {
-            font-size: 0.95rem;
+            font-size: 0.92rem;
             font-weight: 500;
             font-style: italic;
             color: var(--genco-text-muted);
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             letter-spacing: 0.5px;
         }
 
         .genco-divider {
             height: 2px;
             background: linear-gradient(90deg, transparent, var(--genco-yellow), transparent);
-            margin: 24px 0;
+            margin: 22px 0 26px;
             opacity: 0.7;
-        }
-
-        /* Contact & Social Links */
-        .social-links-container {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            margin-bottom: 28px;
-        }
-
-        .social-btn {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 14px 22px;
-            border-radius: 16px;
-            background: rgba(110, 22, 36, 0.4);
-            border: 1.5px solid rgba(229, 169, 60, 0.3);
-            color: var(--genco-text-light);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            backdrop-filter: blur(5px);
-        }
-
-        .social-btn:hover {
-            background: rgba(229, 169, 60, 0.18);
-            border-color: var(--genco-gold);
-            color: var(--genco-gold);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(255, 200, 69, 0.25);
-        }
-
-        .social-btn-content {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .social-icon {
-            font-size: 1.4rem;
-            width: 32px;
-            text-align: center;
-        }
-
-        .social-btn-phone .social-icon { color: #4CAF50; }
-        .social-btn-fb .social-icon { color: #1877F2; }
-        .social-btn-ig .social-icon { color: #E4405F; }
-        .social-btn-tiktok .social-icon { color: #EE1D52; }
-
-        .social-arrow {
-            font-size: 0.9rem;
-            opacity: 0.6;
-            transition: transform 0.3s ease, opacity 0.3s ease;
-        }
-
-        .social-btn:hover .social-arrow {
-            opacity: 1;
-            transform: translateX(4px);
         }
 
         /* Phone Quick Call Action Card */
         .phone-card {
-            background: linear-gradient(135deg, rgba(110, 22, 36, 0.7), rgba(42, 5, 11, 0.9));
+            background: linear-gradient(135deg, rgba(110, 22, 36, 0.75), rgba(42, 5, 11, 0.92));
             border: 1.5px solid var(--genco-yellow);
-            border-radius: 20px;
-            padding: 16px 20px;
-            margin-bottom: 24px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            border-radius: 18px;
+            padding: 14px 18px;
+            margin-bottom: 18px;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
         }
 
         .phone-card-title {
-            font-size: 0.8rem;
+            font-size: 0.76rem;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: var(--genco-gold);
             font-weight: 700;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .phone-card-body {
@@ -234,7 +206,7 @@
         }
 
         .phone-number-display {
-            font-size: 1.35rem;
+            font-size: 1.25rem;
             font-weight: 800;
             letter-spacing: 1px;
             color: #FFFFFF;
@@ -249,14 +221,14 @@
             background: var(--genco-gold);
             color: var(--genco-maroon-dark);
             border: none;
-            padding: 8px 14px;
-            border-radius: 12px;
+            padding: 7px 12px;
+            border-radius: 10px;
             font-weight: 700;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
             transition: all 0.25s ease;
             cursor: pointer;
         }
@@ -265,108 +237,364 @@
             background: var(--genco-gold-hover);
             color: var(--genco-maroon);
             transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(255, 200, 69, 0.4);
         }
 
-        /* Section Title */
+        /* Contact & Social Links */
+        .social-links-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 13px 20px;
+            border-radius: 15px;
+            background: rgba(110, 22, 36, 0.45);
+            border: 1.5px solid rgba(229, 169, 60, 0.3);
+            color: var(--genco-text-light);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.25s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .social-btn:hover {
+            background: rgba(229, 169, 60, 0.2);
+            border-color: var(--genco-gold);
+            color: var(--genco-gold);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4), 0 0 14px rgba(255, 200, 69, 0.25);
+        }
+
+        .social-btn-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .social-icon {
+            font-size: 1.3rem;
+            width: 28px;
+            text-align: center;
+        }
+
+        .social-btn-fb .social-icon { color: #1877F2; }
+        .social-btn-ig .social-icon { color: #E4405F; }
+        .social-btn-tiktok .social-icon { color: #EE1D52; }
+
+        .social-arrow {
+            font-size: 0.85rem;
+            opacity: 0.6;
+        }
+
+        .social-btn:hover .social-arrow {
+            opacity: 1;
+            transform: translateX(3px);
+        }
+
+        /* -------------------------------------------------------------
+           CIRCULAR PIZZA CAROUSEL SHOWCASE (DIRECT INTERACTIVE SECTION)
+        ------------------------------------------------------------- */
         .section-title {
             font-family: 'Playfair Display', serif;
-            font-size: 1.4rem;
+            font-size: 1.45rem;
+            font-weight: 700;
             color: var(--genco-gold);
-            margin-bottom: 16px;
+            margin-bottom: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.6);
         }
 
-        /* Accordion Menu */
-        .genco-accordion {
-            --bs-accordion-bg: transparent;
-            --bs-accordion-border-color: rgba(229, 169, 60, 0.25);
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .genco-accordion-item {
-            background: rgba(65, 12, 21, 0.6) !important;
-            border: 1.5px solid rgba(229, 169, 60, 0.25) !important;
-            border-radius: 18px !important;
-            overflow: hidden;
-            transition: border-color 0.3s ease;
-        }
-
-        .genco-accordion-item:hover {
-            border-color: var(--genco-yellow) !important;
-        }
-
-        .genco-accordion-button {
-            background: transparent !important;
-            color: var(--genco-text-light) !important;
-            font-weight: 700;
-            font-size: 1.05rem;
-            padding: 16px 20px !important;
-            box-shadow: none !important;
+        .plate-viewport {
+            position: relative;
+            width: 100%;
             display: flex;
             align-items: center;
-            gap: 12px;
+            justify-content: center;
+            margin-bottom: 18px;
+            touch-action: pan-y;
+            user-select: none;
+            cursor: grab;
         }
 
-        .genco-accordion-button::after {
-            filter: invert(75%) sepia(80%) saturate(400%) hue-rotate(350deg);
+        .plate-viewport:active {
+            cursor: grabbing;
         }
 
-        .genco-accordion-button:not(.collapsed) {
-            color: var(--genco-gold) !important;
-            background: rgba(229, 169, 60, 0.12) !important;
+        /* Ambient glow behind circular frame */
+        .plate-halo {
+            position: absolute;
+            width: clamp(230px, 68vw, 290px);
+            height: clamp(230px, 68vw, 290px);
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 200, 69, 0.45) 0%, rgba(178, 34, 34, 0.35) 45%, transparent 72%);
+            filter: blur(22px);
+            z-index: 1;
+            opacity: 0.85;
+            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            pointer-events: none;
         }
 
-        .pizza-badge {
-            background: var(--genco-gold);
-            color: var(--genco-maroon-dark);
-            font-size: 0.7rem;
-            font-weight: 800;
-            padding: 3px 8px;
-            border-radius: 20px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-left: auto;
+        /* Circular Frame with gold rim */
+        .plate-frame {
+            position: relative;
+            z-index: 2;
+            width: clamp(230px, 66vw, 280px);
+            height: clamp(230px, 66vw, 280px);
+            border-radius: 50%;
+            padding: 5px;
+            background: linear-gradient(145deg, #FFE28A 0%, #C99624 45%, #6A1825 85%, #FFE28A 100%);
+            box-shadow:
+                0 14px 35px rgba(0, 0, 0, 0.8),
+                0 0 30px rgba(255, 200, 69, 0.35),
+                0 0 10px rgba(255, 226, 138, 0.5);
+            transition: transform 0.25s ease-out;
         }
 
-        .pizza-img-wrapper {
+        .plate-inner-ring {
+            position: relative;
             width: 100%;
-            height: 220px;
-            border-radius: 14px;
+            height: 100%;
+            border-radius: 50%;
             overflow: hidden;
-            margin-bottom: 14px;
-            border: 1px solid rgba(229, 169, 60, 0.3);
+            background: #140503;
+            border: 2px solid rgba(255, 200, 69, 0.4);
+            box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.85);
         }
 
-        .pizza-img {
+        .pizza-slides-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .pizza-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            opacity: 0;
+            transform: scale(0.92) rotate(-8deg);
+            transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1), transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+        }
+
+        .pizza-slide.active {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+            pointer-events: auto;
+        }
+
+        .pizza-slide img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.4s ease;
+            display: block;
+            transform: scale(1.04);
+            transition: transform 0.5s ease-out;
         }
 
-        .genco-accordion-item:hover .pizza-img {
-            transform: scale(1.05);
+        .plate-viewport:hover .pizza-slide.active img {
+            transform: scale(1.08);
+        }
+
+        /* Overlay at bottom of circular frame */
+        .plate-bottom-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            padding-bottom: 15px;
+            padding-left: 16px;
+            padding-right: 16px;
+            background: linear-gradient(
+                to top,
+                rgba(15, 3, 4, 0.96) 0%,
+                rgba(20, 4, 6, 0.85) 45%,
+                rgba(20, 4, 6, 0.35) 75%,
+                transparent 100%
+            );
+            border-bottom-left-radius: 140px;
+            border-bottom-right-radius: 140px;
+            pointer-events: none;
+        }
+
+        .overlay-brand {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.58rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--genco-gold);
+            margin-bottom: 2px;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+            opacity: 0.95;
+        }
+
+        .overlay-pizza-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: clamp(1.1rem, 4vw, 1.35rem);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #FFFFFF;
+            line-height: 1.1;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Navigation Arrows */
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: rgba(35, 8, 12, 0.75);
+            border: 1px solid rgba(255, 200, 69, 0.4);
+            color: var(--genco-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: 0 4px 14px rgba(0,0,0,0.5);
+            transition: all 0.25s ease;
+            font-size: 0.85rem;
+        }
+
+        .nav-arrow:hover {
+            background: rgba(255, 200, 69, 0.25);
+            border-color: var(--genco-gold-hover);
+            color: #FFFFFF;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .nav-arrow:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+
+        .nav-arrow.prev { left: -4px; }
+        .nav-arrow.next { right: -4px; }
+
+        /* Pagination Dots (5 Dots) */
+        .pagination-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 10px;
+            margin-bottom: 16px;
+        }
+
+        .page-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.22);
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .page-dot:hover {
+            background: rgba(255, 200, 69, 0.6);
+            transform: scale(1.2);
+        }
+
+        .page-dot.active {
+            width: 24px;
+            border-radius: 12px;
+            background: linear-gradient(90deg, #FFE28A, #FFC845);
+            box-shadow: 0 0 10px rgba(255, 200, 69, 0.6);
+        }
+
+        /* Pizza Details Box */
+        .pizza-info-box {
+            width: 100%;
+            padding: 0 6px;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .pizza-serif-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.5rem, 5vw, 1.85rem);
+            font-weight: 700;
+            color: var(--genco-gold);
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+            line-height: 1.2;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+        }
+
+        .badge-wrapper {
+            margin-bottom: 10px;
+        }
+
+        .pill-badge {
+            display: inline-block;
+            padding: 3px 14px;
+            border-radius: 50px;
+            border: 1.2px solid var(--genco-gold);
+            background: rgba(255, 200, 69, 0.08);
+            color: var(--genco-gold);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(4px);
         }
 
         .pizza-description {
-            font-size: 0.92rem;
-            line-height: 1.5;
+            font-size: 0.9rem;
+            line-height: 1.55;
             color: var(--genco-text-muted);
-            margin-bottom: 0;
+            font-weight: 400;
+            max-width: 380px;
+            margin: 0 auto 12px auto;
+            min-height: 44px;
+        }
+
+        .helper-text {
+            font-size: 0.75rem;
+            color: rgba(209, 190, 174, 0.65);
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
         }
 
         /* Footer Note */
         .genco-footer-note {
             text-align: center;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             color: rgba(255, 249, 242, 0.5);
-            margin-top: 28px;
+            margin-top: 26px;
             letter-spacing: 0.5px;
         }
 
@@ -379,7 +607,7 @@
             background: var(--genco-gold);
             color: var(--genco-maroon-dark);
             font-weight: 700;
-            padding: 10px 22px;
+            padding: 9px 20px;
             border-radius: 25px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.5);
             z-index: 9999;
@@ -394,23 +622,30 @@
 
         @media (max-width: 480px) {
             .genco-profile-card {
-                padding: 30px 18px;
-                border-radius: 22px;
+                padding: 28px 16px 26px;
+                border-radius: 24px;
             }
             .genco-title {
-                font-size: 1.85rem;
+                font-size: 1.8rem;
             }
             .phone-number-display {
-                font-size: 1.15rem;
+                font-size: 1.12rem;
             }
-            .pizza-img-wrapper {
-                height: 180px;
-            }
+            .nav-arrow.prev { left: -8px; }
+            .nav-arrow.next { right: -8px; }
         }
     </style>
 </head>
 <body class="genco-body">
     <div class="genco-bg-overlay"></div>
+
+    <!-- Decorative Faint Watermark Text Background -->
+    <div class="watermark-background" aria-hidden="true">
+        <div class="watermark-row">GENCO PIZZA &bull; ITALIAN INSPIRED &bull; GENCO PIZZA</div>
+        <div class="watermark-row">HOMEMADE WITH LOVE &bull; GENCO PIZZA &bull; HOMEMADE</div>
+        <div class="watermark-row">GENCO PIZZA &bull; BEST PIZZA IN TOWN &bull; GENCO</div>
+        <div class="watermark-row">SLOW-SIMMERED SAUCES &bull; GENCO PIZZA &bull; LOVE</div>
+    </div>
 
     <main role="main" class="genco-main-wrapper">
         <div class="genco-profile-card text-center">
@@ -476,130 +711,97 @@
 
             <div class="genco-divider"></div>
 
-            <!-- Featured Pizza Menu Showcase Link -->
-            <a href="pizza-carousel.html" class="social-btn" style="background: linear-gradient(135deg, rgba(255, 200, 69, 0.2), rgba(110, 22, 36, 0.7)); border-color: var(--genco-gold); margin-bottom: 22px;">
-                <div class="social-btn-content">
-                    <i class="fa-solid fa-circle-play social-icon" style="color: var(--genco-gold);"></i>
-                    <div class="text-start">
-                        <div style="font-weight: 800; color: var(--genco-gold); letter-spacing: 0.5px;">Interactive Pizza Showcase</div>
-                        <div style="font-size: 0.78rem; opacity: 0.85;">Swipe circular menu (Phone View)</div>
-                    </div>
-                </div>
-                <i class="fa-solid fa-arrow-right social-arrow"></i>
-            </a>
-
-            <!-- Featured Pizza Menu Dropdown / Accordion -->
+            <!-- Featured Pizza Menu Title -->
             <div class="section-title">
                 <i class="fa-solid fa-fire text-warning"></i> Featured Pizza Menu <i class="fa-solid fa-fire text-warning"></i>
             </div>
 
-            <div class="accordion genco-accordion" id="pizzaMenuAccordion">
-                
-                <!-- 1st Pizza: Bambino Bianca -->
-                <div class="accordion-item genco-accordion-item">
-                    <h2 class="accordion-header" id="headingZero">
-                        <button class="accordion-button genco-accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseZero" aria-expanded="true" aria-controls="collapseZero">
-                            <i class="fa-solid fa-sparkles text-warning me-2"></i>
-                            <span>1. Bambino Bianca</span>
-                            <span class="pizza-badge">New</span>
-                        </button>
-                    </h2>
-                    <div id="collapseZero" class="accordion-collapse collapse show" aria-labelledby="headingZero" data-bs-parent="#pizzaMenuAccordion">
-                        <div class="accordion-body text-start">
-                            <div class="pizza-img-wrapper">
-                                <img src="images/bambino-bianca.jpg" alt="Bambino Bianca Pizza" class="pizza-img" />
+            <!-- DIRECT INTERACTIVE PIZZA SHOWCASE (SWIPEABLE CIRCULAR FRAME) -->
+            <div class="plate-viewport" id="plateViewport" role="region" aria-label="Pizza Carousel">
+                <!-- Ambient warm glow behind plate -->
+                <div class="plate-halo" id="plateHalo"></div>
+
+                <!-- Left Arrow Button -->
+                <button type="button" class="nav-arrow prev" id="prevBtn" aria-label="Previous Pizza" title="Previous Pizza">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+
+                <!-- The Circular Frame (Pizza/Plate Shape) -->
+                <div class="plate-frame" id="plateFrame">
+                    <div class="plate-inner-ring">
+                        
+                        <!-- Circular Slides Container -->
+                        <div class="pizza-slides-container" id="slidesContainer">
+                            <!-- Pizza 1: Bambino Bianca -->
+                            <div class="pizza-slide active" data-index="0">
+                                <img src="images/bambino-bianca.jpg" alt="Bambino Bianca Pizza" loading="eager">
                             </div>
-                            <p class="pizza-description">
-                                Our newest creation, layered with mozzarella, Gouda, and honeyed corn.
-                            </p>
+
+                            <!-- Pizza 2: Queen Margherita -->
+                            <div class="pizza-slide" data-index="1">
+                                <img src="images/queen-margherita.jpg" alt="Queen Margherita Pizza" loading="lazy">
+                            </div>
+
+                            <!-- Pizza 3: Five Cheese -->
+                            <div class="pizza-slide" data-index="2">
+                                <img src="images/five-cheese.jpg" alt="Five Cheese Pizza" loading="lazy">
+                            </div>
+
+                            <!-- Pizza 4: Classic Pepperoni -->
+                            <div class="pizza-slide" data-index="3">
+                                <img src="images/classic-pepperoni.jpg" alt="Classic Pepperoni Pizza" loading="lazy">
+                            </div>
+
+                            <!-- Pizza 5: La Suprema Sisig -->
+                            <div class="pizza-slide" data-index="4">
+                                <img src="images/la-suprema-sisig.jpg" alt="La Suprema Sisig Pizza" loading="lazy">
+                            </div>
                         </div>
+
+                        <!-- Bottom Overlay: Small Brand Name & Bold Condensed White Pizza Name -->
+                        <div class="plate-bottom-overlay">
+                            <span class="overlay-brand">GENCO PIZZA</span>
+                            <div class="overlay-pizza-title" id="overlayTitle">BIANCA BAMBINO</div>
+                        </div>
+
                     </div>
                 </div>
 
-                <!-- 2nd Pizza: Queen Margherita -->
-                <div class="accordion-item genco-accordion-item">
-                    <h2 class="accordion-header" id="headingMargherita">
-                        <button class="accordion-button genco-accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMargherita" aria-expanded="false" aria-controls="collapseMargherita">
-                            <i class="fa-solid fa-crown text-warning me-2"></i>
-                            <span>2. Queen Margherita</span>
-                            <span class="pizza-badge">Heritage</span>
-                        </button>
-                    </h2>
-                    <div id="collapseMargherita" class="accordion-collapse collapse" aria-labelledby="headingMargherita" data-bs-parent="#pizzaMenuAccordion">
-                        <div class="accordion-body text-start">
-                            <div class="pizza-img-wrapper">
-                                <img src="images/queen-margherita.jpg" alt="Queen Margherita Pizza" class="pizza-img" />
-                            </div>
-                            <p class="pizza-description">
-                                Mozzarella, Parmigiano Reggiano, cherry tomatoes, and fresh basil.
-                            </p>
-                        </div>
-                    </div>
+                <!-- Right Arrow Button -->
+                <button type="button" class="nav-arrow next" id="nextBtn" aria-label="Next Pizza" title="Next Pizza">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+
+            <!-- Pagination Dots (5 Dots) -->
+            <div class="pagination-container" id="paginationContainer" role="tablist" aria-label="Pizza Selection Dots">
+                <button type="button" class="page-dot active" data-index="0" role="tab" aria-selected="true" aria-label="Pizza 1: Bambino Bianca"></button>
+                <button type="button" class="page-dot" data-index="1" role="tab" aria-selected="false" aria-label="Pizza 2: Queen Margherita"></button>
+                <button type="button" class="page-dot" data-index="2" role="tab" aria-selected="false" aria-label="Pizza 3: Five Cheese"></button>
+                <button type="button" class="page-dot" data-index="3" role="tab" aria-selected="false" aria-label="Pizza 4: Classic Pepperoni"></button>
+                <button type="button" class="page-dot" data-index="4" role="tab" aria-selected="false" aria-label="Pizza 5: La Suprema Sisig"></button>
+            </div>
+
+            <!-- Pizza Details Section Below Dots -->
+            <div class="pizza-info-box" id="infoBox">
+                <!-- Pizza name heading in elegant gold serif font -->
+                <h2 class="pizza-serif-title" id="serifTitle">Bambino Bianca</h2>
+
+                <!-- Pill-shaped badge label underneath in gold outline -->
+                <div class="badge-wrapper">
+                    <span class="pill-badge" id="badgeLabel">NEW CREATION</span>
                 </div>
 
-                <!-- 3rd Pizza: Five Cheese -->
-                <div class="accordion-item genco-accordion-item">
-                    <h2 class="accordion-header" id="headingThree">
-                        <button class="accordion-button genco-accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                            <i class="fa-solid fa-star text-warning me-2"></i>
-                            <span>3. Five Cheese</span>
-                            <span class="pizza-badge">Bestseller</span>
-                        </button>
-                    </h2>
-                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#pizzaMenuAccordion">
-                        <div class="accordion-body text-start">
-                            <div class="pizza-img-wrapper">
-                                <img src="images/five-cheese.jpg" alt="Five Cheese Pizza" class="pizza-img" />
-                            </div>
-                            <p class="pizza-description">
-                                Our bestseller. Five cheeses. Zero notes.
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                <!-- Pizza description -->
+                <p class="pizza-description" id="pizzaDesc">
+                    Our newest creation, layered with mozzarella, Gouda, and honeyed corn.
+                </p>
 
-                <!-- 4th Pizza: Classic Pepperoni -->
-                <div class="accordion-item genco-accordion-item">
-                    <h2 class="accordion-header" id="headingTwo">
-                        <button class="accordion-button genco-accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                            <i class="fa-solid fa-pizza-slice text-warning me-2"></i>
-                            <span>4. Classic Pepperoni</span>
-                            <span class="pizza-badge">Classic</span>
-                        </button>
-                    </h2>
-                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#pizzaMenuAccordion">
-                        <div class="accordion-body text-start">
-                            <div class="pizza-img-wrapper">
-                                <img src="images/classic-pepperoni.jpg" alt="Classic Pepperoni Pizza" class="pizza-img" />
-                            </div>
-                            <p class="pizza-description">
-                                Mozzarella, cheddar, and salame piccante (a spicy Italian cured sausage seasoned with chili peppers and paprika).
-                            </p>
-                        </div>
-                    </div>
+                <!-- Helper text -->
+                <div class="helper-text">
+                    <i class="fa-solid fa-arrows-left-right"></i>
+                    <span>Swipe or tap arrows to browse pizzas</span>
                 </div>
-
-                <!-- 5th Pizza: La Suprema Sisig -->
-                <div class="accordion-item genco-accordion-item">
-                    <h2 class="accordion-header" id="headingOne">
-                        <button class="accordion-button genco-accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                            <i class="fa-solid fa-pepper-hot text-danger me-2"></i>
-                            <span>5. La Suprema Sisig</span>
-                            <span class="pizza-badge">Special</span>
-                        </button>
-                    </h2>
-                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#pizzaMenuAccordion">
-                        <div class="accordion-body text-start">
-                            <div class="pizza-img-wrapper">
-                                <img src="images/la-suprema-sisig.jpg" alt="La Suprema Sisig Pizza" class="pizza-img" />
-                            </div>
-                            <p class="pizza-description">
-                                Chicken or pork sisig from HotMess, butter, mozzarella, cheddar, onions, chili, quail eggs, and mayonnaise.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
             </div>
 
             <div class="genco-footer-note">
@@ -616,7 +818,9 @@
 
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
+        // Copy phone function
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text).then(function () {
                 var toast = document.getElementById('copyToast');
@@ -628,6 +832,225 @@
                 console.error('Could not copy text: ', err);
             });
         }
+
+        // Pizza Carousel Logic
+        (function() {
+            const pizzas = [
+                {
+                    overlayTitle: "BIANCA BAMBINO",
+                    serifTitle: "Bambino Bianca",
+                    badge: "NEW CREATION",
+                    desc: "Our newest creation, layered with mozzarella, Gouda, and honeyed corn."
+                },
+                {
+                    overlayTitle: "QUEEN MARGHERITA",
+                    serifTitle: "Queen Margherita",
+                    badge: "HERITAGE CLASSIC",
+                    desc: "Mozzarella, Parmigiano Reggiano, cherry tomatoes, and fresh basil."
+                },
+                {
+                    overlayTitle: "FIVE CHEESE",
+                    serifTitle: "Five Cheese",
+                    badge: "BESTSELLER",
+                    desc: "Our bestseller. Five cheeses. Zero notes."
+                },
+                {
+                    overlayTitle: "CLASSIC PEPPERONI",
+                    serifTitle: "Classic Pepperoni",
+                    badge: "CROWD FAVORITE",
+                    desc: "Mozzarella, cheddar, and salame piccante (a spicy Italian cured sausage seasoned with chili peppers and paprika)."
+                },
+                {
+                    overlayTitle: "LA SUPREMA SISIG",
+                    serifTitle: "La Suprema Sisig",
+                    badge: "SIGNATURE FUSION",
+                    desc: "Chicken or pork sisig from HotMess, butter, mozzarella, cheddar, onions, chili, quail eggs, and mayonnaise."
+                }
+            ];
+
+            let currentIndex = 0;
+            const totalPizzas = pizzas.length;
+
+            const slides = document.querySelectorAll('.pizza-slide');
+            const dots = document.querySelectorAll('.page-dot');
+            const overlayTitle = document.getElementById('overlayTitle');
+            const serifTitle = document.getElementById('serifTitle');
+            const badgeLabel = document.getElementById('badgeLabel');
+            const pizzaDesc = document.getElementById('pizzaDesc');
+            const infoBox = document.getElementById('infoBox');
+            const plateFrame = document.getElementById('plateFrame');
+            const plateHalo = document.getElementById('plateHalo');
+            const viewport = document.getElementById('plateViewport');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+
+            let isAnimating = false;
+
+            function goToPizza(newIndex, direction = 0) {
+                if (newIndex === currentIndex || isAnimating) return;
+                isAnimating = true;
+
+                const prevIndex = currentIndex;
+                currentIndex = (newIndex + totalPizzas) % totalPizzas;
+
+                slides[prevIndex].classList.remove('active');
+                if (direction !== 0) {
+                    slides[prevIndex].style.transform = `scale(0.9) rotate(${direction * -15}deg)`;
+                }
+
+                slides[currentIndex].classList.add('active');
+                slides[currentIndex].style.transform = '';
+
+                infoBox.style.opacity = '0';
+                infoBox.style.transform = 'translateY(6px)';
+                overlayTitle.style.opacity = '0';
+                overlayTitle.style.transform = 'scale(0.92)';
+
+                setTimeout(() => {
+                    const currentData = pizzas[currentIndex];
+                    overlayTitle.textContent = currentData.overlayTitle;
+                    serifTitle.textContent = currentData.serifTitle;
+                    badgeLabel.textContent = currentData.badge;
+                    pizzaDesc.textContent = currentData.desc;
+
+                    overlayTitle.style.opacity = '1';
+                    overlayTitle.style.transform = 'scale(1)';
+                    infoBox.style.opacity = '1';
+                    infoBox.style.transform = 'translateY(0)';
+                }, 200);
+
+                dots.forEach((dot, idx) => {
+                    if (idx === currentIndex) {
+                        dot.classList.add('active');
+                        dot.setAttribute('aria-selected', 'true');
+                    } else {
+                        dot.classList.remove('active');
+                        dot.setAttribute('aria-selected', 'false');
+                    }
+                });
+
+                plateHalo.style.transform = `scale(1.1) rotate(${currentIndex * 35}deg)`;
+
+                setTimeout(() => {
+                    plateHalo.style.transform = '';
+                    isAnimating = false;
+                }, 450);
+            }
+
+            function nextPizza() {
+                goToPizza(currentIndex + 1, 1);
+            }
+
+            function prevPizza() {
+                goToPizza(currentIndex - 1, -1);
+            }
+
+            nextBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                nextPizza();
+            });
+
+            prevBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                prevPizza();
+            });
+
+            dots.forEach((dot) => {
+                dot.addEventListener('click', () => {
+                    const targetIndex = parseInt(dot.getAttribute('data-index'), 10);
+                    if (targetIndex !== currentIndex) {
+                        goToPizza(targetIndex, targetIndex > currentIndex ? 1 : -1);
+                    }
+                });
+            });
+
+            // Touch & Mouse Drag Gestures
+            let startX = 0;
+            let startY = 0;
+            let currentTranslateX = 0;
+            let isDragging = false;
+            let isHorizontalScroll = false;
+            const swipeThreshold = 40;
+
+            function handleDragStart(x, y) {
+                if (isAnimating) return;
+                startX = x;
+                startY = y;
+                isDragging = true;
+                isHorizontalScroll = false;
+                currentTranslateX = 0;
+                plateFrame.style.transition = 'none';
+            }
+
+            function handleDragMove(x, y) {
+                if (!isDragging) return;
+                const diffX = x - startX;
+                const diffY = y - startY;
+
+                if (!isHorizontalScroll) {
+                    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 8) {
+                        isHorizontalScroll = true;
+                    } else if (Math.abs(diffY) > 10) {
+                        isDragging = false;
+                        plateFrame.style.transition = 'transform 0.3s ease-out';
+                        plateFrame.style.transform = '';
+                        return;
+                    }
+                }
+
+                if (isHorizontalScroll) {
+                    currentTranslateX = diffX;
+                    const dragRotation = diffX * 0.04;
+                    plateFrame.style.transform = `translateX(${diffX * 0.28}px) rotate(${dragRotation}deg)`;
+                }
+            }
+
+            function handleDragEnd() {
+                if (!isDragging) return;
+                isDragging = false;
+                plateFrame.style.transition = 'transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1)';
+                plateFrame.style.transform = '';
+
+                if (isHorizontalScroll) {
+                    if (currentTranslateX < -swipeThreshold) {
+                        nextPizza();
+                    } else if (currentTranslateX > swipeThreshold) {
+                        prevPizza();
+                    }
+                }
+                currentTranslateX = 0;
+                isHorizontalScroll = false;
+            }
+
+            viewport.addEventListener('touchstart', (e) => {
+                const touch = e.touches[0];
+                handleDragStart(touch.clientX, touch.clientY);
+            }, { passive: true });
+
+            viewport.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                const touch = e.touches[0];
+                handleDragMove(touch.clientX, touch.clientY);
+            }, { passive: true });
+
+            viewport.addEventListener('touchend', handleDragEnd);
+            viewport.addEventListener('touchcancel', handleDragEnd);
+
+            viewport.addEventListener('mousedown', (e) => {
+                handleDragStart(e.clientX, e.clientY);
+            });
+
+            window.addEventListener('mousemove', (e) => {
+                handleDragMove(e.clientX, e.clientY);
+            });
+
+            window.addEventListener('mouseup', handleDragEnd);
+
+            window.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight') nextPizza();
+                if (e.key === 'ArrowLeft') prevPizza();
+            });
+        })();
     </script>
 </body>
 </html>
